@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="commons-codec-1.15">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../libs/ooxml-lib/commons-codec-1.15.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../libs/ooxml-lib/commons-collections4-4.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../libs/ooxml-lib/commons-compress-1.20.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../libs/ooxml-lib/commons-math3-3.6.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../libs/ooxml-lib/curvesapi-1.06.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../libs/ooxml-lib/SparseBitSet-1.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../libs/ooxml-lib/xmlbeans-4.0.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ComboBox?>
+<AnchorPane prefHeight="600" prefWidth="800" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pandaism.gui.controller.NewProjectController">
+    <BorderPane AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+        <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+        </padding>
+        <top>
+            <HBox>
+                <padding>
+                    <Insets bottom="5.0" />
+                </padding>
+                <HBox>
+                    <Label text="Choose a template:" />
+                </HBox>
+            </HBox>
+        </top>
+        <center>
+            <SplitPane fx:id="splitPane" dividerPositions="0.5">
+                <VBox>
+               <children>
+                  <ScrollPane fitToHeight="true" fitToWidth="true" VBox.vgrow="ALWAYS">
+                    <content>
+                        <TableView fx:id="device_table" VBox.vgrow="ALWAYS">
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy></TableView>
+                    </content>
+                  </ScrollPane>
+               </children>
+                </VBox>
+                <VBox>
+                    <SplitPane dividerPositions=".75" orientation="VERTICAL" VBox.vgrow="ALWAYS">
+                        <TextArea fx:id="description_box" editable="false"/>
+                        <VBox spacing="5.0">
+                            <VBox>
+                                <Label text="Address"/>
+                                <TextField fx:id="address" promptText="11375 W Sam Houston Pkwy, Houston, TX 77031"/>
+                            </VBox>
+                            <HBox>
+                                <VBox>
+                                    <Label text="Timezone"/>
+                                    <TextField fx:id="timezone" promptText="Central"/>
+                                </VBox>
+                                <Pane HBox.hgrow="ALWAYS"/>
+                            </HBox>
+                        </VBox>
+                    </SplitPane>
+                </VBox>
+            </SplitPane>
+        </center>
+        <bottom>
+            <HBox spacing="5.0">
+                <padding>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                </padding>
+                <Button text="+" onAction="#openCreateTemplate"/>
+                <Pane HBox.hgrow="ALWAYS" />
+                <TextField promptText="SO Number" fx:id="sales_order"/>
+                <Button text="Create" onAction="#createProject"/>
+                <Button text="Cancel" onAction="#cancel"/>
+            </HBox>
+        </bottom>
+    </BorderPane>
+</AnchorPane>
