@@ -16,12 +16,14 @@ public class RecordableAdapter {
 
     @FromJson
     public Devices.Recordable fromJson(String recordable) {
-        Pattern pattern = Pattern.compile("(\\w+(\\s)*(\\w)*)(<(true|false)>)");
+        Pattern pattern = Pattern.compile("(\\w+((\\s)|-)*(\\w)*)(<(true|false)>)");
         Matcher matcher = pattern.matcher(recordable);
 
         if(matcher.matches()) {
             String field = matcher.group(1);
-            boolean bool = Boolean.parseBoolean(matcher.group(4).substring(1, matcher.group(4).length() - 1));
+            String match = matcher.group(5);
+            String substring = match.substring(1, match.length() - 1);
+            boolean bool = Boolean.parseBoolean(substring);
 
             return new Devices.Recordable(field, new SimpleBooleanProperty(bool));
         }

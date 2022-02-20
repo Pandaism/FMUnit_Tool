@@ -1,6 +1,7 @@
 package com.pandaism.gui.controller;
 
 import com.pandaism.FMUnitTool;
+import com.pandaism.util.file.CrossReferenceManager;
 import com.pandaism.util.file.ExcelManager;
 import com.pandaism.util.typing.Devices;
 import javafx.beans.property.SimpleStringProperty;
@@ -14,7 +15,12 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 
+import javax.swing.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 public class OrderTabController {
@@ -44,6 +50,7 @@ public class OrderTabController {
         for(int i = 0; i < devices.getRecordable().length; i++) {
             VBox fieldContainer = new VBox();
             fieldContainer.setSpacing(5.0);
+
             Label fieldLabel = new Label(devices.getRecordable()[i].getField());
             TextField fieldTextField = new TextField();
             fieldTextField.setId("textfield_" + devices.getRecordable()[i]);
@@ -105,8 +112,19 @@ public class OrderTabController {
     }
 
     public void export(ActionEvent actionEvent) {
-        String savePath = this.save_path.getText().isEmpty() ? this.save_path.getPromptText() : this.save_path.getText();
+        if(this.content_pane.getItems().size() > 0) {
+            GregorianCalendar calendar = new GregorianCalendar();
+            DateFormat df = new SimpleDateFormat("MM-dd-yy");
 
-        new ExcelManager(this.content_pane, this.salesOrder, savePath, this.devices);
+            String excelPath = this.save_path.getText().isEmpty() ? this.save_path.getPromptText() : this.save_path.getText();
+            String crossReferencePath = excelPath.substring(0, excelPath.lastIndexOf("\\") + 1) + this.salesOrder + "-" + this.content_pane.getItems().size() + "-" + df.format(calendar.getTime()) + ".txt";
+
+            new ExcelManager(this.content_pane, this.salesOrder, excelPath, this.devices);
+            new CrossReferenceManager(this.content_pane, crossReferencePath, this.devices);
+        } else {
+            JOptionPane.showConfirmDialog(null, "Table Information is empty. There is nothing to export.");
+        }
+
+
     }
 }
