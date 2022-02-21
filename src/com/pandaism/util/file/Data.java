@@ -34,7 +34,7 @@ public class Data {
             FMUnitTool.log.log("Succesfully identified output folder");
         }
 
-        this.dataFolder = new File("./data/");
+        this.dataFolder = new File(FMUnitTool.settings.getTemplatePath());
         if(!this.dataFolder.exists()) {
             if(!this.dataFolder.mkdirs()) {
                 FMUnitTool.log.log("Failed to create data folder");

@@ -120,7 +120,8 @@ public class OrderTabController {
             String crossReferencePath = excelPath.substring(0, excelPath.lastIndexOf("\\") + 1) + this.salesOrder + "-" + this.content_pane.getItems().size() + "-" + df.format(calendar.getTime()) + ".txt";
 
             new ExcelManager(this.content_pane, this.salesOrder, excelPath, this.devices);
-            new CrossReferenceManager(this.content_pane, crossReferencePath, this.devices);
+            //TODO implement CrossReferencing
+            //new CrossReferenceManager(this.content_pane, crossReferencePath, this.devices);
         } else {
             JOptionPane.showConfirmDialog(null, "Table Information is empty. There is nothing to export.");
         }

@@ -1,6 +1,7 @@
 package com.pandaism;
 
 import com.pandaism.util.GUIManager;
+import com.pandaism.util.typing.Settings;
 import com.pandaism.util.thread.ThreadManager;
 import com.pandaism.util.file.Data;
 import com.pandaism.util.file.Log;
@@ -15,6 +16,7 @@ public class FMUnitTool extends Application {
     public static GUIManager guiManager;
     public static Log log;
     public static Data data;
+    public static Settings settings;
     public static ThreadManager threadManager;
     public static OkHttpClient httpClient;
 
@@ -22,6 +24,7 @@ public class FMUnitTool extends Application {
     public void start(Stage primaryStage) throws Exception {
         guiManager = new GUIManager();
         log = new Log();
+        settings = new com.pandaism.util.file.Settings().readSettings();
         data = new Data();
         threadManager = new ThreadManager();
 

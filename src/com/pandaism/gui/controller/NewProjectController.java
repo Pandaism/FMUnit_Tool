@@ -58,13 +58,13 @@ public class NewProjectController {
         this.device_table.getColumns().add(column);
 
         /*TODO Address look up*/
-//        this.address.focusedProperty().addListener((observable, oldValue, newValue) -> {
-//            //If not focused
-//            if(!observable.getValue()) {
-//                this.googlePlaceThread = new Thread(new GooglePlaceLookupThread(this.address, this.timezone));
-//                this.googlePlaceThread.start();
-//            }
-//        });
+        this.address.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            //If not focused
+            if(!observable.getValue()) {
+                this.googlePlaceThread = new Thread(new GooglePlaceLookupThread(this.address, this.timezone));
+                this.googlePlaceThread.start();
+            }
+        });
     }
 
     public void openCreateTemplate(ActionEvent actionEvent) throws IOException {

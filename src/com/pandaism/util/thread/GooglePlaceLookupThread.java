@@ -16,10 +16,9 @@ public class GooglePlaceLookupThread implements Runnable {
         this.address = address;
         this.timezone = timezone;
     }
-
     @Override
     public void run() {
-        String url = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=" + this.address.getText().replaceAll(" ", "%20") + "&key=AIzaSyAJ43ZWSonJ-IAyvB3LkXlViNpvEJM_M5I";
+        String url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + this.address.getText().replaceAll(" ", "+") + "&key=" + FMUnitTool.settings.getGoogleAPIKey();
         Request request = new Request.Builder().url(url).method("GET", null).build();
 
         try {
