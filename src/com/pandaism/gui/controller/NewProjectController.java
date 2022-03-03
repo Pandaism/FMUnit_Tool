@@ -2,13 +2,11 @@ package com.pandaism.gui.controller;
 
 import com.pandaism.FMUnitTool;
 import com.pandaism.gui.scene.OrderTab;
-import com.pandaism.util.thread.GooglePlaceLookupThread;
+import com.pandaism.util.thread.GoogleLookupThread;
 import com.pandaism.util.typing.Devices;
 import com.pandaism.util.typing.RecordableAdapter;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -28,12 +26,14 @@ public class NewProjectController {
     public TextField sales_order;
     public TextField address;
     public TextField timezone;
+    public Button create_button;
 
     private Stage stage;
-    private MenuBarController menuBarController;
     private MainController mainController;
 
-    private Thread googlePlaceThread;
+    private String latitude;
+    private String longitude;
+    private String timeZoneId;
 
     public void initialize() {
         this.splitPane.getDividers().get(0).setPosition(.33);
@@ -57,14 +57,16 @@ public class NewProjectController {
         this.device_table.setItems(list);
         this.device_table.getColumns().add(column);
 
-        /*TODO Address look up*/
         this.address.focusedProperty().addListener((observable, oldValue, newValue) -> {
             //If not focused
             if(!observable.getValue()) {
-                this.googlePlaceThread = new Thread(new GooglePlaceLookupThread(this.address, this.timezone));
-                this.googlePlaceThread.start();
+                FMUnitTool.cachedThreadPool.execute(new GoogleLookupThread(this.address, this.timezone, this));
             }
         });
+
+        this.timezone.textProperty().addListener(((observable, oldValue, newValue) -> {
+            this.create_button.setDisable(newValue.isEmpty());
+        }));
     }
 
     public void openCreateTemplate(ActionEvent actionEvent) throws IOException {
@@ -82,10 +84,8 @@ public class NewProjectController {
 
     public void createProject(ActionEvent actionEvent) {
         Devices devices = this.device_table.getSelectionModel().getSelectedItem();
-        String address = this.address.getText().isEmpty() ? this.address.getPromptText() : this.address.getText();
-        String timezone = this.timezone.getText().isEmpty() ? this.timezone.getPromptText() : this.timezone.getText();
 
-        this.mainController.tab_pane.getTabs().add(new OrderTab(this.sales_order.getText(), devices, address, timezone));
+        this.mainController.tab_pane.getTabs().add(new OrderTab(this.sales_order.getText(), devices, this.longitude, this.latitude, this.timeZoneId));
         this.stage.close();
         FMUnitTool.log.log(devices.getDevice() + " project created");
     }
@@ -98,11 +98,20 @@ public class NewProjectController {
         this.stage = stage;
     }
 
-    public void setMenuBarController(MenuBarController menuBarController) {
-        this.menuBarController = menuBarController;
-    }
-
     public void setMainController(MainController mainController) {
         this.mainController = mainController;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+
+    public void setTimezoneString(String timeZoneId) {
+
+        this.timeZoneId = timeZoneId;
     }
 }

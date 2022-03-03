@@ -72,7 +72,7 @@
                 <Button text="+" onAction="#openCreateTemplate"/>
                 <Pane HBox.hgrow="ALWAYS" />
                 <TextField promptText="SO Number" fx:id="sales_order"/>
-                <Button text="Create" onAction="#createProject"/>
+                <Button fx:id="create_button" disable="true" text="Create" onAction="#createProject"/>
                 <Button text="Cancel" onAction="#cancel"/>
             </HBox>
         </bottom>

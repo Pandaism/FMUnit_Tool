@@ -1,8 +1,8 @@
 package com.pandaism.gui.controller;
 
 import com.pandaism.FMUnitTool;
-import com.pandaism.util.file.CrossReferenceManager;
 import com.pandaism.util.file.ExcelManager;
+import com.pandaism.util.thread.TimeThread;
 import com.pandaism.util.typing.Devices;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
@@ -19,9 +19,12 @@ import javax.swing.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class OrderTabController {
     public VBox input_pane;
@@ -30,14 +33,16 @@ public class OrderTabController {
     public TableView content_pane;
     public Label device_label;
     public Label count_label;
+    public Label latitude_label;
+    public Label longitude_label;
+    public Label time_label;
 
     private String salesOrder;
     private Devices devices;
     private List<TextField> textFields = new ArrayList<>();
 
-    //TODO Add lat and long feature
-    public String address;
-    //TODO Add timezone feature
+    public String latitude;
+    public String longitude;
     public String timezone;
 
     public void initialize() {
@@ -75,12 +80,22 @@ public class OrderTabController {
         this.save_path.setPromptText(FMUnitTool.data.getOutputFolder().getPath() + "\\SO" + this.salesOrder + ".xlsx");
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+        this.latitude_label.setText(latitude);
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+        this.longitude_label.setText(longitude);
     }
 
     public void setTimezone(String timezone) {
         this.timezone = timezone;
+        TimeThread timeThread = new TimeThread(this.time_label, this.timezone);
+        ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1);
+        executorService.scheduleAtFixedRate(timeThread, 0, 1, TimeUnit.SECONDS);
+
     }
 
     public void onSubmit(ActionEvent actionEvent) {
@@ -126,6 +141,9 @@ public class OrderTabController {
             JOptionPane.showConfirmDialog(null, "Table Information is empty. There is nothing to export.");
         }
 
+        System.out.println(this.latitude + " : " + this.longitude);
 
     }
+
+
 }

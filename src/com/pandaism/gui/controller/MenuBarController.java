@@ -23,7 +23,6 @@ public class MenuBarController {
 
         NewProjectController controller = loader.getController();
         controller.setStage(newProjectPopup);
-        controller.setMenuBarController(this);
         controller.setMainController(this.parentController);
     }
 
