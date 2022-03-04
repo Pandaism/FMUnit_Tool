@@ -33,11 +33,11 @@ public class ExcelManager {
         this.savePath = savePath;
         this.devices = devices;
 
-        new Thread(() -> {
+        FMUnitTool.cachedThreadPool.execute(() -> {
             initializeWorkbook();
             writeData();
             write();
-        }).start();
+        });
     }
 
     private void initializeWorkbook() {

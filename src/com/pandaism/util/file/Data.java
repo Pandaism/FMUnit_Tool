@@ -14,7 +14,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Data {
-    //Device:{json data}
     private Map<String, String> datas;
     private final File dataFolder;
 
@@ -62,12 +61,12 @@ public class Data {
                     }
 
                     if(validateData(data.toString())) {
-                        FMUnitTool.log.log(file.toString() + " is registered successfully");
+                        FMUnitTool.log.log(file + " is registered successfully");
 
                         String name = file.toString().substring(2);
                         this.datas.put(name.substring(name.indexOf("\\") + 1, name.indexOf(".")), data.toString());
                     } else {
-                        FMUnitTool.log.log(file.toString() + " failed to register. Checking formatting");
+                        FMUnitTool.log.log(file + " failed to register. Checking formatting");
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
