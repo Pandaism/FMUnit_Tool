@@ -20,6 +20,7 @@ public class Settings {
                     FileWriter writer = new FileWriter(this.settings);
                     writer.write("{");
                     writer.write("\"data template path\": \"./data/templates/\",\n");
+                    writer.write("\"cross reference path\": \"./output/cross-references/\",\n");
                     writer.write("\"api key\": \"api_key\",\n");
                     writer.write("\"updater url\": \"updater url\"");
                     writer.write("}");

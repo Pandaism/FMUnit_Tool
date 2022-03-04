@@ -5,6 +5,8 @@ import com.squareup.moshi.Json;
 public class Settings {
     @Json(name = "data template path")
     private String templatePath;
+    @Json(name = "cross reference path")
+    private String crossReferencePath;
     @Json(name = "api key")
     private String googleAPIKey;
     @Json(name = "updater url")
@@ -20,5 +22,9 @@ public class Settings {
 
     public String getUpdateUrl() {
         return updateUrl;
+    }
+
+    public String getCrossReferencePath() {
+        return crossReferencePath;
     }
 }

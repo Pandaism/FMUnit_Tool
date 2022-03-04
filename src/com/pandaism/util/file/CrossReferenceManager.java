@@ -1,12 +1,15 @@
 package com.pandaism.util.file;
 
 import com.pandaism.util.typing.Devices;
+import com.sun.javafx.collections.ObservableListWrapper;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 
 public class CrossReferenceManager {
 
@@ -28,7 +31,18 @@ public class CrossReferenceManager {
     private void writeCrossreference() {
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(this.crossReferenceOutputFile, true));
+            List<ObservableListWrapper<String>> devices = this.content_pane.getItems();
+            for (ObservableListWrapper<String> device : devices) {
+                for (int j = 0; j < this.devices.getRecordable().length; j++) {
+                    String assemblyID = this.devices.getDevice();
+                    String assemblySN = device.get(0);
+                    String componentID = ((TableColumn) this.content_pane.getColumns().get(j)).getText();
 
+                    writer.write(assemblyID + "\t" + assemblySN + "\t" + componentID + "\t" + device.get(j) + "\t\t\t\t\t\t\t\tN\n");
+                }
+            }
+
+            writer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

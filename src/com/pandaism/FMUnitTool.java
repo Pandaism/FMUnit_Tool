@@ -5,13 +5,17 @@ import com.pandaism.util.typing.Settings;
 import com.pandaism.util.file.Data;
 import com.pandaism.util.file.Log;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class FMUnitTool extends Application {
     public static GUIManager guiManager;
@@ -30,6 +34,21 @@ public class FMUnitTool extends Application {
 
         FXMLLoader loader = new FXMLLoader(guiManager.getScenes().get("Main").getPath());
         Parent root = loader.load();
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                try {
+                    cachedThreadPool.shutdown();
+                    cachedThreadPool.awaitTermination(10, TimeUnit.SECONDS);
+                    cachedThreadPool.shutdownNow();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                Platform.exit();
+                System.exit(0);
+            }
+        });
         primaryStage.setTitle("FMUnit Tool");
         primaryStage.setScene(new Scene(root, 930, 1000));
         primaryStage.show();

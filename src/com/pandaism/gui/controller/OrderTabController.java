@@ -1,6 +1,7 @@
 package com.pandaism.gui.controller;
 
 import com.pandaism.FMUnitTool;
+import com.pandaism.util.file.CrossReferenceManager;
 import com.pandaism.util.file.ExcelManager;
 import com.pandaism.util.thread.TimeThread;
 import com.pandaism.util.typing.Devices;
@@ -133,11 +134,10 @@ public class OrderTabController {
             DateFormat df = new SimpleDateFormat("MM-dd-yy");
 
             String excelPath = this.save_path.getText().isEmpty() ? this.save_path.getPromptText() : this.save_path.getText();
-            String crossReferencePath = excelPath.substring(0, excelPath.lastIndexOf("\\") + 1) + this.salesOrder + "-" + this.content_pane.getItems().size() + "-" + df.format(calendar.getTime()) + ".txt";
+            String crossReferencePath = FMUnitTool.settings.getCrossReferencePath() + this.salesOrder + "-" + this.content_pane.getItems().size() + this.devices.getDevice() + "-" + df.format(calendar.getTime()) + ".txt";
 
             new ExcelManager(this.content_pane, this.salesOrder, excelPath, this.devices);
-            //TODO implement CrossReferencing
-            //new CrossReferenceManager(this.content_pane, crossReferencePath, this.devices);
+            new CrossReferenceManager(this.content_pane, crossReferencePath, this.devices);
         } else {
             JOptionPane.showConfirmDialog(null, "Table Information is empty. There is nothing to export.");
         }

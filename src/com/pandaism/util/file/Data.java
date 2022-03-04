@@ -25,12 +25,22 @@ public class Data {
 
         if(!this.outputFolder.exists()) {
             if(!this.outputFolder.mkdirs()) {
-                FMUnitTool.log.log("Failed to create output folder");
+                File crossreferenceFolder = new File(FMUnitTool.settings.getCrossReferencePath());
+                if(!crossreferenceFolder.exists()) {
+                    if(crossreferenceFolder.mkdirs()) {
+                        FMUnitTool.log.log("Successfully created cross-reference folder");
+                    } else {
+                        FMUnitTool.log.log("Failed to create cross-reference folder");
+                    }
+                } else {
+                    FMUnitTool.log.log("Successfully identified cross-reference folder");
+                }
+                FMUnitTool.log.log("Failed to create output folders");
             } else {
                 FMUnitTool.log.log("Successfully created data folder");
             }
         } else {
-            FMUnitTool.log.log("Succesfully identified output folder");
+            FMUnitTool.log.log("Successfully identified output folder");
         }
 
         this.dataFolder = new File(FMUnitTool.settings.getTemplatePath());
