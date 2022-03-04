@@ -7,8 +7,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.TimeZone;
 
 public class TimeThread implements Runnable {
     private final Label timeLabel;
@@ -17,8 +15,6 @@ public class TimeThread implements Runnable {
     public TimeThread(Label timeLabel, String timezone) {
         this.timeLabel = timeLabel;
         this.timezone = timezone;
-
-        Arrays.stream(TimeZone.getAvailableIDs()).forEach(System.out::println);
     }
 
     @Override

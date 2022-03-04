@@ -52,7 +52,7 @@
     </left>
     <center>
         <AnchorPane>
-            <TableView fx:id="content_pane" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.leftAnchor="0" onKeyPressed="#deleteRow">
+            <TableView fx:id="content_pane" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.leftAnchor="0" editable="true">
                 <columnResizePolicy>
                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                 </columnResizePolicy>
