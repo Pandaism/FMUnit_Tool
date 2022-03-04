@@ -11,7 +11,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 
@@ -21,7 +20,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -47,6 +45,16 @@ public class OrderTabController {
 
     public void initialize() {
         this.content_pane.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
+        this.content_pane.setOnKeyPressed(event -> {
+            ObservableList list = content_pane.getSelectionModel().getSelectedItems();
+
+            if (list.size() > 0) {
+                if (event.getCode().equals(KeyCode.DELETE) ) {
+                    content_pane.getItems().removeAll(list);
+                }
+            }
+        });
     }
 
     public void setDevices(Devices devices) {
@@ -67,6 +75,7 @@ public class OrderTabController {
             TableColumn col = new TableColumn(devices.getRecordable()[i].getField());
             int finalI = i;
             col.setCellValueFactory((Callback<TableColumn.CellDataFeatures<ObservableList, String>, ObservableValue<String>>) param -> new SimpleStringProperty(param.getValue().get(finalI).toString()));
+            col.setEditable(true);
 
             this.content_pane.getColumns().add(col);
         }
@@ -110,14 +119,6 @@ public class OrderTabController {
         this.count_label.setText(String.valueOf(this.content_pane.getItems().size()));
     }
 
-    /*TODO need to work on removing feature*/
-    public void deleteRow(KeyEvent keyEvent) {
-        System.out.println(keyEvent.getCode());
-        if(keyEvent.getCode() == KeyCode.DELETE) {
-            this.content_pane.getSelectionModel().getSelectedIndices().forEach(i -> this.content_pane.getItems().remove(i));
-        }
-    }
-
     public void onClear(ActionEvent actionEvent) {
         for (TextField textField : this.textFields) {
             textField.setText("");
@@ -140,9 +141,6 @@ public class OrderTabController {
         } else {
             JOptionPane.showConfirmDialog(null, "Table Information is empty. There is nothing to export.");
         }
-
-        System.out.println(this.latitude + " : " + this.longitude);
-
     }
 
 
